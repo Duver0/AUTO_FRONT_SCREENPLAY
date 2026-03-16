@@ -1,0 +1,10 @@
+.gradle/
+build/
+target/
+*.class
+*.log
+serenity-reports/
+out/
+.idea/
+*.iml
+.DS_Store
