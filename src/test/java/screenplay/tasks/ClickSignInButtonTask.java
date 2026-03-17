@@ -5,16 +5,16 @@ import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
-import screenplay.ui.NewItemUI;
+import screenplay.ui.HomeUI;
 
-public class NavigateToNewItemPageTask implements Task {
+public class ClickSignInButtonTask implements Task {
 
-    public static Performable fromTheHomePage() {
-        return Tasks.instrumented(NavigateToNewItemPageTask.class);
+    public static Performable as() {
+        return Tasks.instrumented(ClickSignInButtonTask.class);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        actor.attemptsTo(Click.on(NewItemUI.CREATE_BUTTON));
+        actor.attemptsTo(Click.on(HomeUI.SIGN_IN_BUTTON));
     }
 }
