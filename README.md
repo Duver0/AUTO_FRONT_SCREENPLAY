@@ -51,7 +51,17 @@ npm start   # or yarn start, etc.
 ./gradlew reports
 ```
 
-The HTML report will be generated in `target/site/serenity/index.html`.
+Open the generated report on Linux:
+
+```bash
+xdg-open target/site/serenity/index.html
+```
+
+The HTML report is generated at `target/site/serenity/index.html`.
+
+> On macOS: `open target/site/serenity/index.html`
+>
+> On Windows: `start target\\site\\serenity\\index.html`
 
 ---
 
@@ -59,21 +69,21 @@ The HTML report will be generated in `target/site/serenity/index.html`.
 
 ### Positive Flow — `positive_flow.feature`
 
-**Scenario: Visitor views the main heading on the home page**
+**Scenario: Registering with valid information shows success message**
 
-A first-time visitor opens the application root URL and the automation verifies that a main heading (`<h1>`) is present and contains text. This confirms the application has loaded and rendered its primary content.
+A visitor opens the home page, navigates from **Iniciar sesión** to **Regístrate**, completes name/email/password with valid data, submits the form, and verifies the success feedback message.
 
-**Why it differs from POM scenarios:** The POM project typically validates login with valid credentials (form interaction + redirect). This scenario instead validates *passive content rendering* on the landing page — no form interaction, no authentication.
+**Why it differs from POM scenarios:** The POM project focuses on login success/failure. This scenario validates the **signup creation flow** and post-submit feedback on registration.
 
 ---
 
 ### Negative Flow — `negative_flow.feature`
 
-**Scenario: User receives a required field error when submitting an empty title**
+**Scenario: Registering with a weak password shows validation message**
 
-A user navigates to the new item creation page and immediately submits the form without filling in the required title field. The automation verifies that a validation error message appears.
+A visitor follows the same registration navigation path but submits a weak password. The automation verifies the exact weak-password validation feedback.
 
-**Why it differs from POM scenarios:** The POM project's negative flow typically tests login with wrong credentials (HTTP-level rejection). This scenario exercises *client-side form validation* on a create/add form — a completely different interaction model and application flow.
+**Why it differs from POM scenarios:** This scenario validates **password policy enforcement during signup**, not login authentication.
 
 ---
 
@@ -81,31 +91,42 @@ A user navigates to the new item creation page and immediately submits the form 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                          ACTOR                                  │
-│               (Visitor / User + BrowseTheWeb)                   │
+│                            ACTOR                                │
+│                  (User + BrowseTheWeb)                          │
 └──────────────────────────┬──────────────────────────────────────┘
                            │ attemptsTo(...)
-           ┌───────────────┼───────────────┐
-           │               │               │
-           ▼               ▼               ▼
-  ┌────────────────┐ ┌─────────────┐ ┌──────────────────────┐
-  │ OpenHomePage   │ │ NavigateTo  │ │   SubmitEmptyForm    │
-  │     Task       │ │ NewItemTask │ │        Task          │
-  └───────┬────────┘ └──────┬──────┘ └──────────┬───────────┘
-          │                 │                   │
-          │      uses       │      uses         │      uses
-          ▼                 ▼                   ▼
-  ┌───────────────┐  ┌──────────────┐  ┌─────────────────┐
-  │    HomeUI     │  │  NewItemUI   │  │   NewItemUI     │
-  │  (Targets)    │  │  (Targets)   │  │   (Targets)     │
-  └───────────────┘  └──────────────┘  └─────────────────┘
-           │
-           │ should(seeThat(...))
-           ▼
-  ┌────────────────────────┐     ┌──────────────────────────┐
-  │   PageHeadingQuestion  │     │  ValidationErrorQuestion │
-  │   Question<String>     │     │  Question<Boolean>       │
-  └────────────────────────┘     └──────────────────────────┘
+  ┌────────────────────┼───────────────────────┐
+  ▼                    ▼                       ▼
+ ┌────────────────┐  ┌──────────────────┐  ┌────────────────────┐
+ │ OpenHomePage   │  │ ClickSignInButton│  │ ClickRegisterLink  │
+ │      Task      │  │      Task        │  │        Task        │
+ └───────┬────────┘  └────────┬─────────┘  └──────────┬─────────┘
+   │                    │                       │
+   │ uses               │ uses                  │ uses
+   ▼                    ▼                       ▼
+   ┌─────────────┐      ┌─────────────┐        ┌─────────────┐
+   │   HomeUI    │      │   HomeUI    │        │  SignInUI   │
+   │ (Targets)   │      │ (Targets)   │        │ (Targets)   │
+   └─────────────┘      └─────────────┘        └─────────────┘
+
+         │ attemptsTo(...)
+         ▼
+   ┌──────────────────────────────────────────────┐
+   │ EnterName / EnterEmail / EnterPassword Tasks│
+   └──────────────────────┬───────────────────────┘
+        │ uses
+        ▼
+         ┌─────────────┐
+         │  SignUpUI   │
+         │  (Targets)  │
+         └─────────────┘
+
+         │ should(seeThat(...))
+         ▼
+         ┌────────────────────────────────────┐
+         │      FeedbackMessageQuestion       │
+         │         Question<String>           │
+         └────────────────────────────────────┘
 ```
 
 ---
@@ -123,17 +144,21 @@ src/
           ActorFactory.java
         tasks/
           OpenHomePageTask.java
-          NavigateToNewItemPageTask.java
-          SubmitEmptyFormTask.java
+          ClickSignInButtonTask.java
+          ClickRegisterLinkTask.java
+          EnterNameTask.java
+          EnterEmailTask.java
+          EnterPasswordTask.java
+          ClickRegisterButtonTask.java
         questions/
-          PageHeadingQuestion.java
-          ValidationErrorQuestion.java
+          SignUpFormVisibleQuestion.java
+          FeedbackMessageQuestion.java
         ui/
           HomeUI.java
-          NewItemUI.java
+          SignInUI.java
+          SignUpUI.java
       steps/
-        HomePageSteps.java
-        NewItemSteps.java
+        SignUpSteps.java
     resources/
       features/
         positive_flow.feature
@@ -142,4 +167,25 @@ serenity.conf
 build.gradle
 settings.gradle
 ```
+
+---
+
+## Agentes y Skills (GitHub Copilot)
+
+Este proyecto incluye una configuración de agentes especializados con su skill asociado para mantener implementación y mantenimiento ordenados:
+
+- **OrchestratorAgent** (`$orchestrator-screenplay`): coordina el flujo completo y el orden de ejecución de subagentes.
+- **ConfigAgent** (`$config-serenity`): configura `serenity.conf`, `build.gradle` y validación de wrapper.
+- **ScreenplayStructureAgent** (`$screenplay-structure`): define `UI`, `Tasks`, `Questions` y `ActorFactory` en Screenplay puro.
+- **ScenarioAgent** (`$screenplay-scenarios`): define `features` y `steps` con hooks y aserciones.
+
+### Ubicación
+
+- Agentes: `.github/agents/`
+- Skills: `.agents/skills/`
+
+### Fórmula usada
+
+- Cada agente usa formato `chatagent` con frontmatter (`name`, `description`)
+- Cada skill usa formato `skill` con frontmatter (`name`, `description`)
 
