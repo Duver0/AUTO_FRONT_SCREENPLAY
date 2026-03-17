@@ -1,25 +1,34 @@
 plugins {
     id 'java'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '3.6.23'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.11'
 }
 
 group = 'com.automation'
 version = '1.0.0'
-sourceCompatibility = JavaVersion.VERSION_11
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
 }
 
 ext {
-    serenityVersion = '3.6.23'
+    serenityVersion = '4.2.11'
+    cucumberVersion = '6.11.0'
+    webdrivermanagerVersion = '6.1.0'
 }
 
 dependencies {
     testImplementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    testImplementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
     testImplementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
     testImplementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
-    testImplementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
+    testImplementation "io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}"
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
     testImplementation 'junit:junit:4.13.2'
 }
 
