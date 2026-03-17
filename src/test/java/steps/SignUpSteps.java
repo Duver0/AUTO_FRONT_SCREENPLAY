@@ -1,5 +1,13 @@
 package steps;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.MouseInfo;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -8,8 +16,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.GivenWhenThen;
+import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import screenplay.actors.ActorFactory;
 import screenplay.questions.FeedbackMessageQuestion;
@@ -22,12 +31,12 @@ import screenplay.tasks.EnterNameTask;
 import screenplay.tasks.EnterPasswordTask;
 import screenplay.tasks.OpenHomePageTask;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 public class SignUpSteps {
+
+    private static final AtomicInteger WINDOW_SLOT = new AtomicInteger(0);
 
     @Managed
     private WebDriver driver;
@@ -36,7 +45,47 @@ public class SignUpSteps {
 
     @Before
     public void setUp() {
+        int slot = resolveWindowSlot();
+        java.awt.Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        GraphicsDevice activeScreen = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
+        for (GraphicsDevice screen : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+            Rectangle bounds = screen.getDefaultConfiguration().getBounds();
+            if (bounds.contains(mouseLocation)) {
+                activeScreen = screen;
+                break;
+            }
+        }
+
+        Rectangle screenBounds = activeScreen.getDefaultConfiguration().getBounds();
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(activeScreen.getDefaultConfiguration());
+
+        int availableX = screenBounds.x + insets.left;
+        int availableY = screenBounds.y + insets.top;
+        int availableWidth = screenBounds.width - insets.left - insets.right;
+        int availableHeight = screenBounds.height - insets.top - insets.bottom;
+
+        int halfWidth = availableWidth / 2;
+        int xPosition = availableX + (slot == 0 ? 0 : halfWidth);
+
+        driver.manage().window().setSize(new Dimension(halfWidth, availableHeight));
+        driver.manage().window().setPosition(new org.openqa.selenium.Point(xPosition, availableY));
+
         user = ActorFactory.createActor("User", driver);
+    }
+
+    private int resolveWindowSlot() {
+        String workerName = System.getProperty("org.gradle.test.worker");
+        if (workerName != null && !workerName.isBlank()) {
+            String workerNumber = workerName.replaceAll("\\D+", "");
+            if (!workerNumber.isBlank()) {
+                return Integer.parseInt(workerNumber) % 2;
+            }
+        }
+
+        return WINDOW_SLOT.getAndIncrement() % 2;
     }
 
     @After
