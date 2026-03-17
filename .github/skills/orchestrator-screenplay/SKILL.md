@@ -8,9 +8,9 @@ description: Orchestrate ConfigAgent, ScreenplayStructureAgent and ScenarioAgent
 
 ## Execution order
 
-1. `config-serenity`
-2. `screenplay-structure`
-3. `screenplay-scenarios`
+1. `agent-config-serenity-Screenplay`
+2. `agent-screenplay-structure-Screenplay`
+3. `agent-screenplay-scenarios-Screenplay`
 
 ## Validation
 
