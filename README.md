@@ -174,15 +174,15 @@ settings.gradle
 
 Este proyecto incluye una configuración de agentes especializados con su skill asociado para mantener implementación y mantenimiento ordenados:
 
-- **OrchestratorAgent** (`$orchestrator-screenplay`): coordina el flujo completo y el orden de ejecución de subagentes.
-- **ConfigAgent** (`$config-serenity`): configura `serenity.conf`, `build.gradle` y validación de wrapper.
-- **ScreenplayStructureAgent** (`$screenplay-structure`): define `UI`, `Tasks`, `Questions` y `ActorFactory` en Screenplay puro.
-- **ScenarioAgent** (`$screenplay-scenarios`): define `features` y `steps` con hooks y aserciones.
+- **OrchestratorAgent** (`$agent-orchestrator-screenplay-Screenplay`): coordina el flujo completo y el orden de ejecución de subagentes.
+- **ConfigAgent** (`$agent-config-serenity-Screenplay`): configura `serenity.conf`, `build.gradle` y validación de wrapper.
+- **ScreenplayStructureAgent** (`$agent-screenplay-structure-Screenplay`): define `UI`, `Tasks`, `Questions` y `ActorFactory` en Screenplay puro.
+- **ScenarioAgent** (`$agent-screenplay-scenarios-Screenplay`): define `features` y `steps` con hooks y aserciones.
 
 ### Ubicación
 
 - Agentes: `.github/agents/`
-- Skills: `.agents/skills/`
+- Skills: `.github/skills/`
 
 ### Fórmula usada
 

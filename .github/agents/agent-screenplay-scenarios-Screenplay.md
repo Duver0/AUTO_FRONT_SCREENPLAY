@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: screenplay-scenarios
+name: agent-screenplay-scenarios-Screenplay
 description: Creates and wires Gherkin features and Cucumber step definitions for Screenplay tests.
 ---
 
