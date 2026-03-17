@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: orchestrator-screenplay
+name: agent-orchestrator-screenplay-Screenplay
 description: Orchestrates ConfigAgent, ScreenplayStructureAgent and ScenarioAgent for Serenity Screenplay projects.
 ---
 
@@ -8,9 +8,9 @@ description: Orchestrates ConfigAgent, ScreenplayStructureAgent and ScenarioAgen
 
 Coordinate execution in this strict order:
 
-1. `config-serenity`
-2. `screenplay-structure`
-3. `screenplay-scenarios`
+1. `agent-config-serenity-Screenplay`
+2. `agent-screenplay-structure-Screenplay`
+3. `agent-screenplay-scenarios-Screenplay`
 
 ## Responsibilities
 

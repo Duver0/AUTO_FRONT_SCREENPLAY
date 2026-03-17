@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: config-serenity
+name: agent-config-serenity-Screenplay
 description: Configures Serenity/Gradle baseline for this Screenplay automation project.
 ---
 

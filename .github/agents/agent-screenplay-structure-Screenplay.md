@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: screenplay-structure
+name: agent-screenplay-structure-Screenplay
 description: Builds and maintains Screenplay core structure (UI Targets, Tasks, Questions, ActorFactory).
 ---
 
