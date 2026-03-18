@@ -67,7 +67,7 @@ The HTML report is generated at `target/site/serenity/index.html`.
 
 ## Scenarios
 
-### Positive Flow — `positive_flow.feature`
+### Sign Up Flow — `sign_up_flow.feature`
 
 **Scenario: Registering with valid information shows success message**
 
@@ -77,7 +77,7 @@ A visitor opens the home page, navigates from **Iniciar sesión** to **Regístra
 
 ---
 
-### Negative Flow — `negative_flow.feature`
+### Scenarios within `sign_up_flow.feature`
 
 **Scenario: Registering with a weak password shows validation message**
 
@@ -161,8 +161,7 @@ src/
         SignUpSteps.java
     resources/
       features/
-        positive_flow.feature
-        negative_flow.feature
+        sign_up_flow.feature
 serenity.conf
 build.gradle
 settings.gradle
@@ -174,10 +173,10 @@ settings.gradle
 
 Este proyecto incluye una configuración de agentes especializados con su skill asociado para mantener implementación y mantenimiento ordenados:
 
-- **OrchestratorAgent** (`$agent-orchestrator-screenplay-Screenplay`): coordina el flujo completo y el orden de ejecución de subagentes.
-- **ConfigAgent** (`$agent-config-serenity-Screenplay`): configura `serenity.conf`, `build.gradle` y validación de wrapper.
-- **ScreenplayStructureAgent** (`$agent-screenplay-structure-Screenplay`): define `UI`, `Tasks`, `Questions` y `ActorFactory` en Screenplay puro.
-- **ScenarioAgent** (`$agent-screenplay-scenarios-Screenplay`): define `features` y `steps` con hooks y aserciones.
+- **OrchestratorAgent** (`$screenplay-ui-orquestacion`): coordina el flujo completo y el orden de ejecución de subagentes.
+- **ConfigAgent** (`$screenplay-ui-configuracion`): configura `serenity.conf`, `build.gradle` y validación de wrapper.
+- **ScreenplayStructureAgent** (`$screenplay-ui-estructura`): define `UI`, `Tasks`, `Questions` y `ActorFactory` en Screenplay puro.
+- **ScenarioAgent** (`$screenplay-ui-escenarios`): define `features` y `steps` con hooks y aserciones.
 
 ### Ubicación
 

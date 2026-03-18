@@ -1,7 +1,8 @@
+````chatagent
 ```chatagent
 ---
-name: agent-config-serenity-Screenplay
-description: Configures Serenity/Gradle baseline for this Screenplay automation project.
+name: screenplay-ui-configuracion
+description: Configures Serenity/Gradle baseline for this Screenplay UI automation project.
 ---
 
 # ConfigAgent
@@ -18,3 +19,5 @@ description: Configures Serenity/Gradle baseline for this Screenplay automation 
 - Do not create page objects.
 - Keep Java compatibility on 11.
 ```
+
+````

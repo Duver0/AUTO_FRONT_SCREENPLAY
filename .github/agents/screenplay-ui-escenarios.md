@@ -1,14 +1,15 @@
+````chatagent
 ```chatagent
 ---
-name: agent-screenplay-scenarios-Screenplay
-description: Creates and wires Gherkin features and Cucumber step definitions for Screenplay tests.
+name: screenplay-ui-escenarios
+description: Creates and wires Gherkin features and Cucumber step definitions for Screenplay UI tests.
 ---
 
 # ScenarioAgent
 
 ## Scope
 
-- Create/update `positive_flow.feature` and `negative_flow.feature`.
+- Create/update the sign up feature file with positive and negative scenarios.
 - Implement corresponding step definitions using Screenplay interactions.
 - Add hooks for setup/teardown.
 
@@ -18,3 +19,5 @@ description: Creates and wires Gherkin features and Cucumber step definitions fo
 - Use `actor.attemptsTo(...)` for actions.
 - Use `actor.should(seeThat(...))` for assertions.
 ```
+
+````
