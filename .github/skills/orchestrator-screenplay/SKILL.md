@@ -1,16 +1,16 @@
 ```skill
 ---
 name: orchestrator-screenplay
-description: Orchestrate ConfigAgent, ScreenplayStructureAgent and ScenarioAgent in the right order for Serenity Screenplay automation.
+description: Orchestrate screenplay-ui-configuracion, screenplay-ui-estructura and screenplay-ui-escenarios in the right order for Serenity Screenplay UI automation.
 ---
 
 # Orchestrator Skill — Serenity Screenplay
 
 ## Execution order
 
-1. `agent-config-serenity-Screenplay`
-2. `agent-screenplay-structure-Screenplay`
-3. `agent-screenplay-scenarios-Screenplay`
+1. `screenplay-ui-configuracion`
+2. `screenplay-ui-estructura`
+3. `screenplay-ui-escenarios`
 
 ## Validation
 
