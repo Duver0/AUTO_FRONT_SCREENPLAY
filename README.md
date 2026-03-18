@@ -67,7 +67,7 @@ The HTML report is generated at `target/site/serenity/index.html`.
 
 ## Scenarios
 
-### Positive Flow — `positive_flow.feature`
+### Sign Up Flow — `sign_up_flow.feature`
 
 **Scenario: Registering with valid information shows success message**
 
@@ -77,7 +77,7 @@ A visitor opens the home page, navigates from **Iniciar sesión** to **Regístra
 
 ---
 
-### Negative Flow — `negative_flow.feature`
+### Scenarios within `sign_up_flow.feature`
 
 **Scenario: Registering with a weak password shows validation message**
 
@@ -161,8 +161,7 @@ src/
         SignUpSteps.java
     resources/
       features/
-        positive_flow.feature
-        negative_flow.feature
+        sign_up_flow.feature
 serenity.conf
 build.gradle
 settings.gradle
