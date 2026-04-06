@@ -146,9 +146,8 @@ src/
           OpenHomePageTask.java
           ClickSignInButtonTask.java
           ClickRegisterLinkTask.java
-          EnterNameTask.java
-          EnterEmailTask.java
-          EnterPasswordTask.java
+          SelectEmployeeUserTypeTask.java
+          FillSignUpFormTask.java
           ClickRegisterButtonTask.java
         questions/
           SignUpFormVisibleQuestion.java
@@ -157,6 +156,8 @@ src/
           HomeUI.java
           SignInUI.java
           SignUpUI.java
+        utils/
+          DynamicEmailResolver.java
       steps/
         SignUpSteps.java
     resources/
