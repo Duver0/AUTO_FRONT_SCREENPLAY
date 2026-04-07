@@ -1,4 +1,4 @@
-package runner;
+package runners;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
+        features = "src/test/resources/features/disponibilidad_y_atencion.feature",
         glue = "steps",
         plugin = {"pretty"},
-        tags = "not @disponibilidad_y_atencion"
+        tags = "@disponibilidad_y_atencion"
 )
-public class CucumberTestRunner {
+public class DisponibilidadYAtencionRunner {
 }

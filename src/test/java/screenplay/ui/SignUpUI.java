@@ -13,6 +13,10 @@ public class SignUpUI {
             Target.the("email input")
                     .located(By.cssSelector("input[placeholder='Email']"));
 
+    public static final Target USER_TYPE_SELECT =
+            Target.the("user type select")
+                    .located(By.cssSelector("select[aria-label='Tipo de usuario']"));
+
     public static final Target PASSWORD_INPUT =
             Target.the("password input")
                     .located(By.cssSelector("input[placeholder='Contraseña']"));
