@@ -1,6 +1,7 @@
 package screenplay.utils;
 
-import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class DynamicEmailResolver {
 
@@ -14,14 +15,10 @@ public final class DynamicEmailResolver {
             return rawEmail;
         }
 
-        LocalDateTime now = LocalDateTime.now();
-        int digitsSum = now.getDayOfMonth()
-                + now.getMonthValue()
-                + (now.getYear() % 100)
-                + now.getHour()
-                + now.getMinute()
-                + now.getSecond();
+        long now = System.currentTimeMillis();
+        int randomSuffix = ThreadLocalRandom.current().nextInt(1000, 9999);
+        String uniqueSuffix = String.format(Locale.ROOT, "%d%d", now, randomSuffix);
 
-        return rawEmail.replace(DATE_DIGIT_SUM_TOKEN, String.valueOf(digitsSum));
+        return rawEmail.replace(DATE_DIGIT_SUM_TOKEN, uniqueSuffix);
     }
 }
