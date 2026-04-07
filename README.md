@@ -38,7 +38,7 @@ npm start   # or yarn start, etc.
 ## Running the Tests
 
 ```bash
-./gradlew clean test
+./gradlew clean test aggregate
 ```
 
 > On Windows: `gradlew.bat clean test`
@@ -87,6 +87,20 @@ A visitor follows the same registration navigation path but submits a weak passw
 
 ---
 
+### Disponibilidad y atencion - `disponibilidad_y_atencion.feature`
+
+**Scenario: Finalizar atencion limpia la vista del paciente y deja el consultorio disponible**
+
+El medico inicia sesion, toma un consultorio libre, recibe un paciente en espera y lo pasa a atencion activa. Luego finaliza la atencion y se valida que el estado vuelva a **Disponible** sin paciente visible.
+
+**Scenario: Marcar no disponible durante atencion mantiene la atencion activa**
+
+El medico inicia sesion, toma consultorio y entra en **En atencion**. Durante la atencion marca el consultorio como no disponible y se valida el comportamiento diferido: la atencion no se interrumpe y se muestra la pausa programada.
+
+**Why it differs from POM scenarios:** These scenarios focus on **estado operativo del consultorio, atencion activa y pausa diferida**, not on login success/failure as the main assertion.
+
+---
+
 ## Screenplay Architecture Diagram
 
 ```
@@ -129,6 +143,21 @@ A visitor follows the same registration navigation path but submits a weak passw
          └────────────────────────────────────┘
 ```
 
+### Medical availability and attention flow
+
+```
+Actor(Medico)
+  -> IniciarSesionComoMedico
+  -> VincularseAConsultorio
+  -> AsignarPacienteEnEspera
+  -> [FinalizarAtencion | MarcarNoDisponible]
+  -> Questions(EstadoConsultorio, EstadoAtencionPaciente, PausaProgramadaVisible, PacienteVisible)
+
+Supporting components
+  Interactions: RegistrarMedicoDePrueba, CrearTurnoEnEspera
+  UI Targets: MedicalSignInUI, MedicalPanelUI
+```
+
 ---
 
 ## Project Structure
@@ -139,9 +168,14 @@ src/
     java/
       runner/
         CucumberTestRunner.java
+      runners/
+        DisponibilidadYAtencionRunner.java
       screenplay/
         actors/
           ActorFactory.java
+        interactions/
+          RegistrarMedicoDePrueba.java
+          CrearTurnoEnEspera.java
         tasks/
           OpenHomePageTask.java
           ClickSignInButtonTask.java
@@ -149,20 +183,34 @@ src/
           SelectEmployeeUserTypeTask.java
           FillSignUpFormTask.java
           ClickRegisterButtonTask.java
+          IniciarSesionComoMedico.java
+          VincularseAConsultorio.java
+          AsignarPacienteEnEspera.java
+          FinalizarAtencion.java
+          MarcarNoDisponible.java
         questions/
-          SignUpFormVisibleQuestion.java
           FeedbackMessageQuestion.java
+          EstadoConsultorioQuestion.java
+          EstadoAtencionPacienteQuestion.java
+          PacienteVisibleQuestion.java
+          PausaProgramadaVisibleQuestion.java
         ui/
           HomeUI.java
           SignInUI.java
           SignUpUI.java
+          MedicalSignInUI.java
+          MedicalPanelUI.java
         utils/
           DynamicEmailResolver.java
+          TestMedicalDataFactory.java
+          MedicalBackendClient.java
       steps/
         SignUpSteps.java
+        DisponibilidadYAtencionSteps.java
     resources/
       features/
         sign_up_flow.feature
+        disponibilidad_y_atencion.feature
 serenity.conf
 build.gradle
 settings.gradle
